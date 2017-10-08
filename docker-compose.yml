@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  db:
+    build:
+      dockerfile: db/Dockerfile
+      context: .
+
+  backend:
+    ports:
+      - "8000:8000"
+    build:
+      dockerfile: backend/Dockerfile
+      context: .
+    volumes:
+      - ./backend/:/app/backend/
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    ports:
+      - "3000:3000"
+    build:
+      dockerfile: frontend/Dockerfile
+      context: .
+    volumes:
+      - ./frontend/:/app/frontend/
+    depends_on:
+      - db
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
