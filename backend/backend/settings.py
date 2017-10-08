@@ -37,6 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
+    'django_extensions',
+    # 'health_check',                             # required
+    # 'health_check.db',                          # stock Django health checkers
+    # 'health_check.cache',
+    # 'health_check.storage',
+    # 'health_check.contrib.celery',              # requires celery
+    # 'health_check.contrib.s3boto_storage',      # requires boto and S3BotoStorage backend
 ]
 
 MIDDLEWARE = [
@@ -87,6 +95,18 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

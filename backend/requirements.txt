@@ -3,3 +3,7 @@ django-filter==1.0.4
 djangorestframework==3.7.0
 pytz==2017.2
 psycopg2
+django-extensions
+celery
+redis
+django-redis
