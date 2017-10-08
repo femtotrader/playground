@@ -26,8 +26,8 @@ services:
     volumes:
       - ./backend/:/app/backend/
     depends_on:
-      - db
       - redis
+      - db
     restart: always
     healthcheck:
       test: ["CMD", "curl", "-f", "-v", "-X GET", "-H 'Accept: application/json'", "http://localhost:8000/ht/"]
@@ -44,6 +44,8 @@ services:
     volumes:
       - ./frontend/:/app/frontend/
     depends_on:
+      - redis
+      - db
       - backend
     restart: always
     healthcheck:
